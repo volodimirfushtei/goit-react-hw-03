@@ -78,7 +78,7 @@
   font-size: 2em;
   color: #333;
   font-family: "Courier New", Courier, monospace;
-  margin-right: 64px;
+  margin-right: 80px;
   transition: color 0.3s ease;
   cursor: pointer;
   &:hover {
