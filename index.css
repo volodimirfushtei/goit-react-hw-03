@@ -1,0 +1,21 @@
+#root {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1440px;
+  text-align: center;
+  align-items: center;
+  background-color: #fff;
+  font-family: "Courier New", Courier, monospace;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  &:hover {
+    background-color: #d5d0d0;
+  }
+  @media screen {
+    min-width: 375px;
+  }
+  padding: 15px;
+  max-width: 760px;
+}
