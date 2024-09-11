@@ -13,6 +13,7 @@ const initialContacts = [
 ];
 export default function App() {
   const [contacts, setContacts] = useState(initialContacts);
+  const [searchQuery, setSearchQuery] = useState("");
   // Функція для додавання нового контакту
   const addContact = (newContact) => {
     setContacts((prevContacts) => [
@@ -20,12 +21,28 @@ export default function App() {
       { id: `id-${prevContacts.length + 1}`, ...newContact },
     ]);
   };
+  const getFilteredContacts = () => {
+    const query = searchQuery.toLowerCase();
+    return contacts.filter(
+      (contact) =>
+        contact.name.toLowerCase().includes(query) ||
+        contact.number.includes(query)
+    );
+  };
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    // Додайте логіку для пошуку за query, наприклад, фільтрацію контактів
+    console.log("Search Query:", query);
+  };
   return (
     <>
       <h1>Phonebook</h1>
       <ContactForm onAddContact={addContact} />
-      <SearchBox />
-      <ContactList contacts={contacts} />
+      <SearchBox onSearch={handleSearch} />
+      <ContactList
+        contacts={contacts}
+        getFilteredContacts={getFilteredContacts}
+      />
     </>
   );
 }

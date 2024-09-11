@@ -29,7 +29,8 @@ const ContactForm = () => {
       >
         {({ isSubmitting }) => (
           <Form className={s.form_container}>
-            <div>
+            <div className={s.name_container}>
+              <span className={s.name}>Name</span>
               <Field
                 className={s.input}
                 type="text"
@@ -38,7 +39,8 @@ const ContactForm = () => {
               />
               <ErrorMessage name="name" component="div" />
             </div>
-            <div>
+            <div className={s.number_container}>
+              <span className={s.number}>Number</span>
               <Field
                 className={s.input}
                 type="number"
