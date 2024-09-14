@@ -1,9 +1,11 @@
 import ContactForm from "./Components/ContactForm/ContactForm";
 import SearchBox from "./components/SearchBox/SearchBox";
 import "./App.css";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { nanoid } from "nanoid";
 import ContactList from "./components/ContactList/ContactList";
+
+const LOCAL_STORAGE_KEY = "contactStorage";
 
 const initialContacts = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -13,35 +15,56 @@ const initialContacts = [
 ];
 export default function App() {
   const [contacts, setContacts] = useState(initialContacts);
-  const [searchQuery, setSearchQuery] = useState("");
+
+  const [filter, setFilter] = useState("");
+
+  // Зчитування контактів з local storage
+  useEffect(() => {
+    const storedContacts = JSON.parse(
+      window.localStorage.getItem(LOCAL_STORAGE_KEY)
+    );
+    if (storedContacts) {
+      setContacts(storedContacts);
+    }
+  }, []);
+  // Запис контактів в local storage
+  useEffect(() => {
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+  }, [contacts]);
+
   // Функція для додавання нового контакту
   const addContact = (newContact) => {
     setContacts((prevContacts) => [
       ...prevContacts,
-      { id: `id-${prevContacts.length + 1}`, ...newContact },
+      { id: nanoid(), ...newContact },
     ]);
   };
-  const getFilteredContacts = () => {
-    const query = searchQuery.toLowerCase();
-    return contacts.filter(
-      (contact) =>
-        contact.name.toLowerCase().includes(query) ||
-        contact.number.includes(query)
+  const handleDeleteContact = (id) => {
+    setContacts((prevContacts) =>
+      prevContacts.filter((contact) => contact.id !== id)
     );
   };
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-    // Додайте логіку для пошуку за query, наприклад, фільтрацію контактів
-    console.log("Search Query:", query);
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
   };
+  const handleAddContact = (newContact) => {
+    addContact(newContact);
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newContact));
+
+    setFilter(""); // Очищення поля пошуку після додавання контакту
+  };
+  // Функція для регістру
+  const filterContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
   return (
     <>
       <h1>Phonebook</h1>
-      <ContactForm onAddContact={addContact} />
-      <SearchBox onSearch={handleSearch} />
+      <ContactForm onAddContact={handleAddContact} />
+      <SearchBox value={filter} onChange={handleFilterChange} />
       <ContactList
-        contacts={contacts}
-        getFilteredContacts={getFilteredContacts}
+        contacts={filterContacts}
+        onDeleteContact={handleDeleteContact}
       />
     </>
   );

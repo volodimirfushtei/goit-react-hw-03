@@ -1,7 +1,7 @@
 import s from "./Contact.module.css";
 import { RiContactsLine } from "react-icons/ri";
 import { BsTelephone } from "react-icons/bs";
-const Contact = ({ name, number }) => {
+const Contact = ({ name, number, onDelete }) => {
   return (
     <li className={s.contactItem}>
       <div className={s.contact}>
@@ -15,10 +15,7 @@ const Contact = ({ name, number }) => {
           {number}
         </span>
       </div>
-      <button
-        className={s.contact_btn}
-        onClick={() => alert(`Calling ${name}...`)}
-      >
+      <button className={s.contact_btn} onClick={onDelete}>
         Delete
       </button>
     </li>

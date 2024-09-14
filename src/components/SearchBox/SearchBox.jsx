@@ -1,25 +1,18 @@
 import s from "./SearchBox.module.css";
 
-import { Formik, Field } from "formik";
-
-const SearchBox = ({ onSearch }) => {
+const SearchBox = ({ value, onChange }) => {
   return (
-    <div>
-      <Formik
-        initialValues={{ search: "" }}
-        onSubmit={(values, { resetForm }) => {
-          // Виклик функції, що передана як пропс
-          onSearch(values.search);
-          resetForm(); // Очищення поля після відправки
-        }}
-      >
-        <Field
+    <div className={s.searchBox_container}>
+      <label className={s.label}>
+        <span className={s.span}>Find contacts by name</span>
+        <input
+          className={s.input}
           type="text"
-          name="search"
-          className={s.searchBox}
+          value={value}
+          onChange={onChange}
           placeholder="Search..."
         />
-      </Formik>
+      </label>
     </div>
   );
 };
