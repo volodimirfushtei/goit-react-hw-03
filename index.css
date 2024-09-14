@@ -11,7 +11,7 @@
   transition: background-color 0.3s;
   cursor: pointer;
   &:hover {
-    background-color: #d5d0d0;
+    background-color: #bfc2c9;
   }
   @media screen {
     min-width: 375px;
