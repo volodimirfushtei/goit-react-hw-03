@@ -8,11 +8,11 @@ const validationSchema = Yup.object({
     .min(3, "Too Short!")
     .max(50, "Too Long!")
     .required("Name is required"),
-  number: Yup.string() // Виправлено на string для коректного валідування номера
-    .matches(/^[0-9]+$/, "Must be a number") // Перевірка, що поле містить тільки цифри
+  number: Yup.string()
+    .matches(/^\+?[0-9\s()-]+$/, "Must be a valid phone number") // Регулярний вираз для перевірки телефонного номера
     .required("Number is required")
-    .min(3, "Too Short!") // Мінімальна кількість символів
-    .max(50, "Too Long!"), // Максимальна кількість символів
+    .min(3, "Too Short!") // Мінімальна кількість символів, наприклад, для міжнародного формату
+    .max(50, "Too Long!"), //альна кількість символів
 });
 
 const initialValues = {
