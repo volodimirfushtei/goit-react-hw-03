@@ -9,7 +9,6 @@ const Contact = ({ name, number, onDelete }) => {
           <RiContactsLine className={s.icon_name} size="24" />
           {name}:{" "}
         </span>
-
         <span className={s.number}>
           <BsTelephone className={s.icon_number} size="24" />
           {number}
