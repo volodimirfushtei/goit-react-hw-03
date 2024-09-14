@@ -14,7 +14,12 @@ const initialContacts = [
   { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
 ];
 export default function App() {
-  const [contacts, setContacts] = useState(initialContacts);
+  const [contacts, setContacts] = useState(() => {
+    const storedContacts = JSON.parse(
+      window.localStorage.getItem(LOCAL_STORAGE_KEY)
+    );
+    return storedContacts ? storedContacts : initialContacts;
+  });
 
   const [filter, setFilter] = useState("");
 
@@ -29,7 +34,11 @@ export default function App() {
   }, []);
   // Запис контактів в local storage
   useEffect(() => {
-    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+    // Запис контактів в local storage тільки коли масив змінився
+
+    if (JSON.stringify(contacts) !== JSON.stringify(initialContacts)) {
+      window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+    }
   }, [contacts]);
 
   // Функція для додавання нового контакту
@@ -40,10 +49,19 @@ export default function App() {
     ]);
   };
   const handleDeleteContact = (id) => {
-    setContacts((prevContacts) =>
-      prevContacts.filter((contact) => contact.id !== id)
-    );
+    setContacts((prevContacts) => {
+      const updatedContacts = prevContacts.filter(
+        (contact) => contact.id !== id
+      );
+
+      if (updatedContacts.length === 0) {
+        window.localStorage.removeItem(LOCAL_STORAGE_KEY);
+        return initialContacts;
+      }
+      return updatedContacts;
+    });
   };
+
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
