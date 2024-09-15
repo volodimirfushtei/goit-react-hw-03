@@ -18,4 +18,5 @@
   }
   padding: 15px;
   max-width: 760px;
+  box-sizing: border-box;
 }
