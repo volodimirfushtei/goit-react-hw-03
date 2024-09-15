@@ -33,7 +33,7 @@ const ContactForm = ({ onAddContact }) => {
       >
         <Form className={s.form_container}>
           <div className={s.name_container}>
-            <label className={s.l}>
+            <label className={s.label}>
               <span className={s.name}>Name</span>
               <Field
                 className={s.input}
